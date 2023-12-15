@@ -1,0 +1,6 @@
+r332 release:
+
+- fixed leftovers errors for Classic Era 1.15;
+- removed Blizzard QuestLog textures overlapping the addon frame (huge thanks to chipzz & the WoWUIDev discord guys);
+- merged into one the two BEQL menus under the AddOns tab;
+- updated TOC version;

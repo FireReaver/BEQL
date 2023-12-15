@@ -1,0 +1,18 @@
+## Interface: 11500
+## Title: Bayi's Extended Questlog - Classic
+## Author: Namdrof, BloodOmen, Angelike
+## SavedVariables: beqlDBnew
+## Version: 1.1.1 Alpha 3
+## OptionalDeps: Ace3, LibArray, LibStub, CallbackHandler-1.0
+## URL: http://www.wowace.com/addons/bayis-extended-questlog/
+
+## X-Category: Quest
+## X-Email: no yet
+## X-Embeds: Ace3, LibArray
+
+## X-Author-Faction: Alliance
+## X-Author-Server: EU/Everlook
+## X-Website: http://wow.curse.com/downloads/wow-addons/details/bayis-extended-questlog.aspx
+## X-Localizations: enUS, esMX, enGB, frFR, deDE, ruRU, esES, koKR, zhZN, zhTW
+
+beql.xml

@@ -1,0 +1,22 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+
+
+	<!-- official wow languages -->
+
+	<Include file="localization.lua"/>
+	<Include file="localization-cn.lua"/>
+	<Include file="localization-de.lua"/>
+	<Include file="localization-es.lua"/>
+	<Include file="localization-it.lua"/>
+	<Include file="localization-fr.lua"/>
+	<Include file="localization-ko.lua"/>
+	<Include file="localization-mx.lua"/>
+	<Include file="localization-pt.lua"/>
+	<Include file="localization-ru.lua"/>
+	<Include file="localization-tw.lua"/>
+
+	<!-- unofficial wow languages -->
+	<Include file="localization-hu.lua"/>
+</Ui>

@@ -1,0 +1,30 @@
+## Interface: 11302
+## Version: 1.0.0
+## Title: Lib: Array
+
+LibArray.lua
+
+tests/__construct.lua
+tests/concat.lua
+tests/fill.lua
+tests/filter.lua
+tests/find.lua
+tests/findIndex.lua
+tests/forEach.lua
+tests/includes.lua
+tests/indexOf.lua
+tests/join.lua
+tests/keys.lua
+tests/lastIndexOf.lua
+tests/map.lua
+tests/pop.lua
+tests/push.lua
+tests/reverse.lua
+tests/shift.lua
+tests/slice.lua
+tests/some.lua
+tests/sort.lua
+tests/splice.lua
+tests/toString.lua
+tests/unshift.lua
+tests/values.lua

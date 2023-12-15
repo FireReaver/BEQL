@@ -1,0 +1,275 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+
+	<!-- QuestLog Buttons and Frames -->
+	<Button parent="QuestLogFrame" hidden="true" inherits="UIPanelButtonTemplate" text="O">
+		<Anchors>
+			<Anchor point="RIGHT" relativeTo="QuestLogFrameCloseButton" relativePoint="LEFT" x="4" y="0"/>
+		</Anchors>
+		<Size x="20" y="24"/>
+		<Scripts>
+			<OnLoad>
+				self.beqlName = "configButton";
+				self.beqlOnClick = 'Log:configButton_OnClick';
+			</OnLoad>
+		</Scripts>
+		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" />
+	</Button>
+
+	<Button parent="QuestLogFrame" hidden="true" inherits="UIPanelButtonTemplate" >
+		<Anchors>
+			<Anchor point="RIGHT" relativeTo="QuestLogFrameCloseButton" relativePoint="LEFT" x="-20" y="0"/>
+		</Anchors>
+		<Size x="24" y="24"/>
+		<Scripts>
+			<OnLoad>
+				self.beqlName = "questLogToggleButton";
+				self.beqlOnClick = 'Log:toggleStyle';
+			</OnLoad>
+		</Scripts>
+		<NormalTexture file="Interface\AddOns\beql\Images\minimize_up" />
+		<PushedTexture file="Interface\AddOns\beql\Images\minimize_down" />
+		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" />
+	</Button>
+
+	<!-- QuestLogFrame -->
+	<Frame hidden="false" parent="UIParent" clampedToScreen="false" movable="true">
+		<Size x="1" y="1"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" x="0" y="-104"/>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				self.updateTime = .2;
+
+				self.beqlName        = "questLogAnchor";
+				self.beqlOnUpdate    = 'Log:Anchor_OnUpdate';
+				self.beqlOnDragStart = 'Log:OnDragStart';
+				self.beqlOnDragStop  = 'Log:OnDragStop';
+
+				QuestLogFrame.beqlOnDragStart = 'Log:OnDragStart';
+				QuestLogFrame.beqlOnDragStop  = 'Log:OnDragStop';
+				
+            function HideQuestLogTextures()
+                for _, region in ipairs({QuestLogFrame:GetRegions()}) do
+                    local textureFileID = region.GetTextureFileID and region:GetTextureFileID()
+                    if textureFileID == GetFileIDFromPath([[Interface\QuestFrame\UI-QuestLog-TopLeft]]) or
+                       textureFileID == GetFileIDFromPath([[Interface\QuestFrame\UI-QuestLog-TopRight]]) or
+                       textureFileID == GetFileIDFromPath([[Interface\QuestFrame\UI-QuestLog-BotLeft]]) or
+                       textureFileID == GetFileIDFromPath([[Interface\QuestFrame\UI-QuestLog-BotRight]]) then
+                        region:Hide()
+                    end
+                end
+            end
+
+            HideQuestLogTextures()
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<!-- QuestWatchFrame -->
+	<Frame movable="true" parent="UIParent" frameStrata="BACKGROUND" clampedToScreen="true">
+		<Anchors>
+			<Anchor point="CENTER" />
+		</Anchors>
+		<Size x="1" y="1" />
+		<Frames>
+			<Frame enableMouse="true" hidden="true">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT" x="0" y="-2" />
+					<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="-2" />
+				</Anchors>
+				<Size x="200" y="32"/>
+				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+					<BackgroundInsets left="4" right="4" top="4" bottom="4"/>
+					<TileSize val="16"/>
+					<EdgeSize val="16"/>
+				</Backdrop>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<FontString text="beql QuestTracker" inherits="GameFontNormal" parentKey="Text">
+							<Anchors>
+								<Anchor point="LEFT" x="10" y="1" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button inherits="UIPanelButtonTemplate">
+						<Size>
+							<AbsDimension x="24" y="24"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="-4" y="2"/>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self:RegisterForDrag("LeftButton");
+								self.beqlName = 'questWatchToggleButton';
+
+								self.beqlOnDragStart = 'Tracker:OnDragStart';
+								self.beqlOnDragStop  = 'Tracker:OnDragStop';
+								self.beqlOnClick     = 'Tracker:OnToggle';
+							</OnLoad>
+						</Scripts>
+						<NormalTexture file="Interface\AddOns\beql\Images\minimize_up" />
+						<PushedTexture file="Interface\AddOns\beql\Images\minimize_down" />
+						<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD" />
+					</Button>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						self:RegisterForDrag("LeftButton");
+
+						self.beqlName = 'questWatchTitle';
+
+						self.beqlOnDragStart = 'Tracker:OnDragStart';
+						self.beqlOnDragStop  = 'Tracker:OnDragStop';
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame enableMouse="true" hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" />
+				</Anchors>
+				<Size x="200" y="200"/>
+				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+					<BackgroundInsets left="4" right="4" top="4" bottom="4" />
+					<TileSize val="16"/>
+					<EdgeSize val="16"/>
+				</Backdrop>
+				<Scripts>
+					<OnLoad>
+						self:RegisterForDrag("LeftButton");
+
+						self.beqlName = 'questWatchFrame';
+
+						self.beqlOnDragStart = 'Tracker:OnDragStart';
+						self.beqlOnDragStop  = 'Tracker:OnDragStop';
+						self.beqlOnUpdate    = 'Tracker:OnUpdate';
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.beqlName = 'questWatchAnchor';
+				self.beqlOnUpdate = 'Tracker:anchor_OnUpdate';
+
+				self:RegisterEvent('QUEST_LOG_UPDATE');
+				self:RegisterEvent('QUEST_WATCH_UPDATE');
+			</OnLoad>
+		</Scripts>
+	</Frame>
+
+	<Frame name="beqlWatchFrameLineTemplate" virtual="true">
+		<Size x="150" y="16"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE" parentKey="dash">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-1" />
+						<Anchor point="BOTTOMLEFT" x="0" y="1" />
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormalSmall" justifyH="LEFT" justifyV="MIDDLE" parentKey="text">
+					<Size x="160" y="10"/>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<StatusBar hidden="true" parentKey="statusBar">
+				<Size>
+					<AbsDimension x="212" y="16"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="8" y="-2"/>
+					<Anchor point="BOTTOMRIGHT" x="-8" y="6"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture>
+							<Anchors>
+								<Anchor point="TOPLEFT"/>
+								<Anchor point="BOTTOMRIGHT"/>
+							</Anchors>
+							<Color r="0" g="0" b="0" a=".4"/>
+						</Texture>
+					</Layer>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontHighlightSmall" text="700/700" justifyV="TOP" parentKey="text">
+							<Size x="0" y="0"/>
+							<Anchors>
+								<Anchor point="CENTER" />
+							</Anchors>
+						</FontString>
+					</Layer>
+					<Layer level="ARTWORK">
+						<!-- left -->
+						<Texture file="Interface\AchievementFrame\UI-Achievement-ProgressBar-Border" >
+							<Size x="16" y="14" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-6" y="5"/>
+								<Anchor point="BOTTOMLEFT" x="-6" y="-4"/>
+							</Anchors>
+							<TexCoords left="0" right="0.0625" top="0" bottom="0.75"/>
+						</Texture>
+						<!-- middle -->
+						<Texture file="Interface\AchievementFrame\UI-Achievement-ProgressBar-Border">
+							<Size x="16" y="14" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="5"/>
+								<Anchor point="BOTTOMRIGHT" x="-10" y="-4"/>
+							</Anchors>
+							<TexCoords left="0.0625" right="0.0625" right2="0.812" top="0" bottom="0.75"/>
+						</Texture>
+						<!-- right -->
+						<Texture file="Interface\AchievementFrame\UI-Achievement-ProgressBar-Border">
+							<Size x="16" y="14" />
+							<Anchors>
+								<Anchor point="TOPRIGHT" x="6" y="5"/>
+								<Anchor point="BOTTOMRIGHT" x="6" y="-4"/>
+							</Anchors>
+							<TexCoords left="0.812" right="0.8745" top="0" bottom="0.75"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self:SetStatusBarColor(0, .6, 0, 1);
+						self:SetMinMaxValues(0, 100);
+						self:SetValue(0);
+						self:GetStatusBarTexture():SetDrawLayer("BORDER");
+
+						self.beqlOnUpdate = 'Tracker:line_OnUpdate';
+					</OnLoad>
+				</Scripts>
+				<BarTexture file="Interface\TargetingFrame\UI-StatusBar"/>
+			</StatusBar>
+			<Frame parentKey="mouseover" enableMouse="true">
+				<Scripts>
+					<OnLoad>
+						self:RegisterForDrag("LeftButton");
+						--self:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"});
+
+						self.beqlOnEnter     = 'Tracker:line_OnEnter';
+						self.beqlOnLeave     = 'Tracker:line_OnLeave';
+						self.beqlOnMouseDown = 'Tracker:line_OnMouseDown';
+						self.beqlOnMouseUp   = 'Tracker:line_OnMouseUp';
+						self.beqlOnDragStart = 'Tracker:OnDragStart';
+						self.beqlOnDragStop  = 'Tracker:OnDragStop';
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self.text:ClearAllPoints();
+				self.text:SetPoint('TOPLEFT', self.dash, 'TOPRIGHT');
+				self.text:SetPoint('BOTTOMLEFT', self.dash, 'BOTTOMRIGHT');
+
+				self.beqlOnUpdate = 'Tracker:StatusBar_OnUpdate';
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
